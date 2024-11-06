@@ -6,19 +6,19 @@ Answer the following questions and provide the SQL queries used to find the answ
 
 SQL Queries: 
 
-SELECT 
+SELECT <br/> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;country,
-    city,
-    SUM(totaltransactionrevenue) AS total_revenue
-FROM 
-    all_sessions
-WHERE 
-	totaltransactionrevenue IS NOT NULL
-GROUP BY 
-    country, 
-    city
-ORDER BY 
-    total_revenue DESC ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;city,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUM(totaltransactionrevenue) AS total_revenue
+FROM <br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all_sessions
+WHERE <br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totaltransactionrevenue IS NOT NULL
+GROUP BY <br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;country, 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;city
+ORDER BY <br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total_revenue DESC ;
 
 
 Answer:
