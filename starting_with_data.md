@@ -1,4 +1,4 @@
-Question 1:  What are the top 5 most popular products (by views) among visitors who eventually made a purchase?
+Question 1:  What are the top 5 most popular products (by site vists) among visitors who eventually made a purchase?
 
 SQL Queries:
 
@@ -8,7 +8,7 @@ WHERE transactions > 0 AND v2ProductName IS NOT NULL <br/>
 GROUP BY v2ProductName <br/> 
 ORDER BY views_by_purchasers DESC; <br/> 
 
-Answer: This question reveals which products are highly viewed by converting visitors, which may indicate popular products that attract paying customers.
+Answer: This question reveals which products are highly viewed by visitors who eventually made a purchase, which may indicate popular products that attract paying customers.
 
 
 
