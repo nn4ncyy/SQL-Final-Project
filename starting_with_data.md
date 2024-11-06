@@ -12,17 +12,18 @@ Answer: This question reveals which products are highly viewed by converting vis
 
 
 
-Question 2: What are the top referring sites by revenue?
+Question 2: What is the average transaction revenue by referring site (channel) for each product category?
 
-SQL Queries:
+SQL Queries: 
 
-SELECT channelGrouping AS referring_site, SUM(totalTransactionRevenue) AS total_revenue <br/> 
-FROM all_sessions <br/> 
-WHERE totalTransactionRevenue IS NOT NULL <br/> 
-GROUP BY channelGrouping <br/> 
-ORDER BY total_revenue DESC; <br/> 
+SELECT a.channelGrouping AS referring_site, a.v2ProductCategory AS product_category, AVG(a.totalTransactionRevenue) AS avg_transaction_revenue <br/> 
+FROM all_sessions AS as <br/> 
+JOIN analytics AS an ON a.fullVisitorId = an.fullvisitorId AND a.visitId = an.visitId <br/> 
+WHERE as.totalTransactionRevenue IS NOT NULL <br/> 
+GROUP BY as.channelGrouping, as.v2ProductCategory <br/> 
+ORDER BY avg_transaction_revenue DESC;
 
-Answer: This helps identify which referral sources drive the most revenue, guiding partnership or affiliate marketing strategies.
+Answer: By joining all_sessions with analytics, this query provides insights into how different channels contribute to revenue across product categories, useful for refining marketing strategies.
 
 
 Question 3: How does the bounce rate compare across different traffic sources?
@@ -38,24 +39,27 @@ Answer: The bounce rate (visitors who only view one page and leave) can indicate
 
 
 
-
-Question 4: What is the average session duration for visitors from each country?
-
-SQL Queries:
-
-SELECT country, AVG(timeOnSite) AS avg_session_duration <br/>
-FROM all_sessions <br/>
-WHERE timeOnSite IS NOT NULL <br/>
-GROUP BY country <br/>
-ORDER BY avg_session_duration DESC; <br/>
-
-Answer: This question can help you understand user engagement levels across different locations, which might indicate regions with higher interest in your products.
-
-
-
-
-Question 5: What are the top 5 most-viewed products on the site?
+Question 4: What is the average session duration for each unique product viewed by visitors who also made a purchase?
 
 SQL Queries:
 
-Answer:
+SELECT a.fullvisitorId, a.v2ProductName AS product_name, AVG(an.timeonsite) AS avg_session_duration <br/> 
+FROM all_sessions AS a <br/> 
+JOIN analytics AS an ON a.fullVisitorId = an.fullvisitorId AND a.visitId = an.visitId <br/> 
+WHERE a.transactions > 0 AND a.v2ProductName IS NOT NULL <br/> 
+GROUP BY a.v2ProductName, a.fullvisitorId <br/> 
+ORDER BY avg_session_duration DESC;
+    
+Answer: By joining all_sessions with analytics, we can analyze session engagement for each product based on users who completed a purchase. This helps understand if certain products lead to longer engagement.
+
+
+Question 5: How many returning visitors (non-first-time) made a purchase?
+
+SQL Queries: 
+
+SELECT COUNT(DISTINCT a.fullVisitorId) AS returning_purchasers <br/> 
+FROM all_sessions AS a <br/> 
+JOIN analytics AS an ON a.fullVisitorId = an.fullvisitorId AND a.visitId = an.visitId <br/> 
+WHERE an.visitNumber > 1 AND a.transactions > 0;
+
+Answer: This query helps to understand the impact of returning visitors on sales, which can guide retention strategies.
