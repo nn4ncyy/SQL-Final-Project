@@ -39,15 +39,22 @@ Answer: The bounce rate (visitors who only view one page and leave) can indicate
 
 
 
-Question 4: 
+Question 4: What is the average session duration for visitors from each country?
 
 SQL Queries:
 
-Answer:
+SELECT country, AVG(timeOnSite) AS avg_session_duration <br/>
+FROM all_sessions <br/>
+WHERE timeOnSite IS NOT NULL <br/>
+GROUP BY country <br/>
+ORDER BY avg_session_duration DESC; <br/>
+
+Answer: This question can help you understand user engagement levels across different locations, which might indicate regions with higher interest in your products.
 
 
 
-Question 5: 
+
+Question 5: What are the top 5 most-viewed products on the site?
 
 SQL Queries:
 
