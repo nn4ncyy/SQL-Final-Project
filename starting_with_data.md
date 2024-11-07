@@ -62,7 +62,7 @@ Answer: By joining all_sessions with analytics, we can analyze session engagemen
 <img width="697" alt="Screenshot 2024-11-07 at 12 30 48 AM" src="https://github.com/user-attachments/assets/a0cbfe89-da7c-42a0-815f-e2fd3151ca26">
 
 
-Question 5: How many returning visitors (non-first-time) made a purchase?
+### Question 5: How many returning visitors (non-first-time) made a purchase?
 
 SQL Queries: 
 ```
