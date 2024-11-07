@@ -115,7 +115,7 @@ UPDATE analytics
 SET unit_price= unit_price/1000000;
 ```
 
-## 5. Ensuring referential integrity between product SKU's in products, sales_by_sku, and sales_report tables
+## 5. Ensuring referential integrity between product SKU's in products and sales_by_sku tables
 
 ```
 # step 1. check if every row displays a distinct SKU for products table, and sales_by_sku table
