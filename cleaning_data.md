@@ -58,7 +58,7 @@ HAVING COUNT(*) > 1
 SELECT visitid, fullvisitorid, AVG(unit_price) AS average_unitprice
 FROM analytics
 GROUP BY visitid, fullvisitorid;
-# now, visitid, fullvisitorid can be used as primary keys in the anlytics table
+-- now, visitid, fullvisitorid can be used as primary keys in the anlytics table
 ```
 ## 3. Addressing the many NULLs in the analytics table
 ```
@@ -66,14 +66,14 @@ GROUP BY visitid, fullvisitorid;
 SELECT *
 FROM analytics
 WHERE units_sold IS NOT NULL;
-# RETURNS 95000 ROWS, CONSIDER COALESCING THE OTHER ROWS TO 0
-# does units_sold display items when no units were sold?
+-- RETURNS 95000 ROWS, CONSIDER COALESCING THE OTHER ROWS TO 0
+-- does units_sold display items when no units were sold?
 
 SELECT *
 FROM analytics
 WHERE units_sold = 0;
-# RETURNS 0 ROWS
-# consider NULLs may represent the value 0, coalesce:
+-- RETURNS 0 ROWS
+-- consider NULLs may represent the value 0, coalesce:
 
 SELECT COALESCE(units_sold, 0) AS units_sold
 FROM analytics;
@@ -82,7 +82,7 @@ FROM analytics;
 SELECT *
 FROM analytics
 WHERE userid IS NOT NULL;
-# RETURNS NO ROWS, consider deleting the column:
+-- RETURNS NO ROWS, consider deleting the column:
 
 ALTER TABLE analytics
 DROP COLUMN userid;
@@ -95,7 +95,7 @@ WHERE bounces IS NOT NULL;
 SELECT *
 FROM analytics
 WHERE bounces = 0;
-# RETURNS 474839 ROWS, CONSIDER COALESCING THE OTHER ROWS TO 0:
+-- RETURNS 474839 ROWS, CONSIDER COALESCING THE OTHER ROWS TO 0:
 
 SELECT COALESCE(bounces, 0) AS bounces
 FROM analytics;
@@ -104,7 +104,7 @@ FROM analytics;
 SELECT *
 FROM analytics
 WHERE revenue IS NOT NULL;
-# RETURNS 15355 ROWS, CONSIDER COALESCING THE OTHER ROWS TO 0:
+-- RETURNS 15355 ROWS, CONSIDER COALESCING THE OTHER ROWS TO 0:
 SELECT COALESCE(revenue, 0) AS revenue
 FROM analytics;
 ```
