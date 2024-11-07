@@ -15,6 +15,7 @@ ORDER BY total_revenue DESC ;
 
 Answer:
 
+<img width="487" alt="Screenshot 2024-11-07 at 12 47 35 AM" src="https://github.com/user-attachments/assets/ddb886fe-b42d-4cd6-823a-41f1f07bd3ff">
 
 
 
@@ -30,8 +31,9 @@ GROUP BY country, city
 ORDER BY avg_products_ordered DESC;
 ```
 
-
 Answer:
+
+<img width="543" alt="Screenshot 2024-11-07 at 12 48 20 AM" src="https://github.com/user-attachments/assets/0c5f7483-fa09-4d44-add9-0a6f22f27773">
 
 
 
@@ -50,7 +52,12 @@ GROUP BY all_sessions.country, all_sessions.city, all_sessions.v2ProductCategory
 ORDER BY all_sessions.country, all_sessions.city, total_products_ordered DESC; 
 ```
 
-Answer:
+Answer: The United states appears the most for demographics who ordered products, this suggests a broad market appeal towards Americans. Futhermore, Homegoods is a universally popular product category to order from.
+
+
+
+<img width="927" alt="Screenshot 2024-11-07 at 12 48 47 AM" src="https://github.com/user-attachments/assets/685a1502-3d6c-4f91-b5d8-845b826a266b"><img width="929" alt="Screenshot 2024-11-07 at 12 48 58 AM" src="https://github.com/user-attachments/assets/a030a8f5-decb-4d16-99a0-28f1a5fb5f87">
+
 
 
 
@@ -62,14 +69,14 @@ Answer:
 SQL Queries:
 ```
 WITH ProductSales AS (
-    SELECT country, city, productSKU, SUM(productQuantity) AS total_quantity_sold <br/>
-    FROM all_sessions <br/>
+    SELECT country, city, productSKU,v2productname, SUM(productQuantity) AS total_quantity_sold
+    FROM all_sessions
     WHERE productQuantity IS NOT NULL AND city != 'not available in demo dataset'
-    GROUP BY country, city, productSKU 
+    GROUP BY country, city, productSKU, v2productname
 ) 
 
-SELECT country,city,productSKU, total_quantity_sold
-FROM ProductSales<br/>
+SELECT country,city,productSKU, v2productname, total_quantity_sold
+FROM ProductSales
 WHERE (country, city, total_quantity_sold) IN (
     SELECT country, city, MAX(total_quantity_sold)
     FROM ProductSales
@@ -77,7 +84,9 @@ WHERE (country, city, total_quantity_sold) IN (
 )
 ORDER BY country, city, total_quantity_sold DESC;
 ```
-Answer:
+Answer: The top-selling product is "Waze Dress Socks" from Spain, with 10 units being sold. Though this is the highest purchased product, Spain only appears in the list once. Compared to the US' 20 times. 
+
+<img width="982" alt="Screenshot 2024-11-07 at 12 55 48 AM" src="https://github.com/user-attachments/assets/eea0ab93-7967-4967-8510-e7b1e44adc8e">
 
 
 
@@ -94,7 +103,8 @@ GROUP BY country, city
 ORDER BY total_revenue DESC; 
 ```
 
-Answer:
+Answer: The United States generated the highest revenue in total, claiming the top five slots. This indicates that it is a lucrative market to tap into. It claims 15/20 spots, which is quite significant suggesting that it generates a substantial amount of revenue.
+<img width="798" alt="Screenshot 2024-11-07 at 12 50 25 AM" src="https://github.com/user-attachments/assets/e2008077-0f09-4f6f-be15-8d5884128cda">
 
 
 
