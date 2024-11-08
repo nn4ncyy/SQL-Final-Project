@@ -12,7 +12,7 @@ Describe your QA process and include the SQL queries used to execute it.
 
 Removing the duplicates proved to be a very beneficial step in the QA process as I was able to use that to ensure that the data was properly represented in tables. This helped 1) in the creation of primary keys, and 2) allowed me to feel more confident in seeing how different tables interacted. 
 
-** Queries to remove duplicates:
+**Queries to remove duplicates:**
 ```
 # step 1. check if row numbers are different
 
@@ -45,10 +45,57 @@ WHERE fullvisitorid,visitid IN (
 
 On the other hand, it was quite difficult for me to understand when it was or was not appropriate to remove certain data. There were a lot of NULL values, but not enough to where it seemed appropriate to delete the columns. I did by best to coalesce what I could, but even then, im still wondering if coalescing is the appropriate step, or if the NULLs represent something more fishy that I’d need to investigate further.
 
-** Queries to coalesce NULLS:
+**Queries to coalesce NULLS:**
+```
+# 1. units_sold
+SELECT *
+FROM analytics
+WHERE units_sold IS NOT NULL;
+-- RETURNS 95000 ROWS, CONSIDER COALESCING THE OTHER ROWS TO 0
+-- does units_sold display items when no units were sold?
+
+SELECT *
+FROM analytics
+WHERE units_sold = 0;
+-- RETURNS 0 ROWS
+-- consider NULLs may represent the value 0, coalesce:
+
+SELECT COALESCE(units_sold, 0) AS units_sold
+FROM analytics;
+
+# 2. userid
+SELECT *
+FROM analytics
+WHERE userid IS NOT NULL;
+-- RETURNS NO ROWS, consider deleting the column:
+
+ALTER TABLE analytics
+DROP COLUMN userid;
+
+# 3. bounce
+SELECT *
+FROM analytics
+WHERE bounces IS NOT NULL;
+
+SELECT *
+FROM analytics
+WHERE bounces = 0;
+-- RETURNS 474839 ROWS, CONSIDER COALESCING THE OTHER ROWS TO 0:
+
+SELECT COALESCE(bounces, 0) AS bounces
+FROM analytics;
+
+# 4. revenue
+SELECT *
+FROM analytics
+WHERE revenue IS NOT NULL;
+-- RETURNS 15355 ROWS, CONSIDER COALESCING THE OTHER ROWS TO 0:
+SELECT COALESCE(revenue, 0) AS revenue
+FROM analytics;
+```
 
 In the same vein, Making inferences on the relationship between two tables was difficult too. For example, I came to the conclusion that the sales_by_sku tables had SKU’s that were not in the products table, so I added the SKUs to the products table. I’m unsure if this was the correct conclusion, because maybe the reality is, that product is just no longer available. 
 
-** Queries I used to address relationships:
+**Queries I used to address relationships:**
 
 Overall, the QA process made me realize the importance of Data cleaning, and any future extensions of this project would involve diving deeper on what data cleaning entails, and how to be better at it. 
