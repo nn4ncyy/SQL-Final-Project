@@ -28,16 +28,17 @@ HAVING COUNT(*) > 1;
 # step 3. delete duplicate rows as needed
 WITH DuplicateRows AS (
     SELECT *,
-           ROW_NUMBER() OVER (PARTITION BY fullvisitorid, visitid ORDER BY id) AS row_num
+           ROW_NUMBER() OVER (PARTITION BY fullvisitorid, visitid ORDER BY fullvisitorid) AS row_num
     FROM all_sessions
 )
 
 DELETE FROM all_sessions
-WHERE fullvisitorid,visitid IN (
+WHERE (fullvisitorid, visitid) IN (
     SELECT fullvisitorid, visitid
     FROM DuplicateRows
     WHERE row_num > 1
 );
+
 ```
 ## 2. Cleaning duplicate rows in the analytics table
 
