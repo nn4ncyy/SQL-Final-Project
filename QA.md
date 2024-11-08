@@ -97,5 +97,51 @@ FROM analytics;
 In the same vein, Making inferences on the relationship between two tables was difficult too. For example, I came to the conclusion that the sales_by_sku tables had SKU’s that were not in the products table, so I added the SKUs to the products table. I’m unsure if this was the correct conclusion, because maybe the reality is, that product is just no longer available. 
 
 **Queries I used to address relationships:**
+```
+# step 1. check if every row displays a distinct SKU for products table, and sales_by_sku table
+SELECT *
+FROM products;
+
+SELECT DISTINCT(sku)
+FROM products;
+
+SELECT *
+FROM sales_by_sku;
+
+SELECT DISTINCT(productsku)
+FROM sales_by_sku;
+-- yes, they both do
+
+-- checking if sales_by_sku doesn't have any sku's not in the products table
+SELECT DISTINCT(productsku)
+FROM sales_by_sku
+WHERE NOT EXISTS 
+    (SELECT sku
+     FROM products
+     WHERE products.sku = sales_by_sku.productsku)
+
+-- checking if sku doesn't have any productsku's not in the sales_by_sku table
+SELECT DISTINCT(sku)
+FROM products
+WHERE NOT EXISTS 
+    (SELECT productsku
+     FROM sales_by_sku
+     WHERE products.sku = sales_by_sku.productsku)
+
+-- checking if sales_by_sku does indeed reflect even ordered that don't have orders
+SELECT * FROM sales_by_sku WHERE total_ordered = 0;
+
+-- so what do we do? add the skus to each table to make sure they both have all the skus
+INSERT INTO products (sku)
+SELECT DISTINCT productsku
+FROM sales_by_sku
+WHERE productsku NOT IN (SELECT sku FROM products);
+
+INSERT INTO sales_by_sku (productsku)
+SELECT DISTINCT sku
+FROM products
+WHERE sales_by_sku NOT IN (SELECT productsku FROM sales_by_sku);
+
+```
 
 Overall, the QA process made me realize the importance of Data cleaning, and any future extensions of this project would involve diving deeper on what data cleaning entails, and how to be better at it. 
