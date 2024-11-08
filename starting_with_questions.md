@@ -13,7 +13,7 @@ GROUP BY country, city
 ORDER BY total_revenue DESC ;
 ```
 
-Answer:
+Answer: The United States, and more specifically, San Francisco had the highest level of transaction revenues on the site.
 
 <img width="487" alt="Screenshot 2024-11-07 at 12 47 35 AM" src="https://github.com/user-attachments/assets/ddb886fe-b42d-4cd6-823a-41f1f07bd3ff">
 
